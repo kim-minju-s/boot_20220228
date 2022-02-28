@@ -24,6 +24,7 @@ public class MemberController {
     @Autowired
     private MemberDB memberDB;
 
+
     // 삭제하기
     // 127.0.0.1:8080/member/delete?id=12
     // <form action="" method="get">

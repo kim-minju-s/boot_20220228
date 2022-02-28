@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 // 구현하는 설계 부분
 @Service
 public interface MemberDB {
+
     
     // 추가할 내용을 member로 주면 추가한 후에
     // 실제 추가된 내용을 반환
