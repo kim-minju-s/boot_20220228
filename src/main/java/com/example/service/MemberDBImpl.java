@@ -57,5 +57,17 @@ public class MemberDBImpl implements MemberDB {
             return -1;
         }
     }
+
+    @Override
+    public Member updateMember(Member member) {
+
+        try {
+
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
     
 }

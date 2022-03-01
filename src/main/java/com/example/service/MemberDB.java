@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 @Service
 public interface MemberDB {
 
+    public Member updateMember(Member member);
     
     // 추가할 내용을 member로 주면 추가한 후에
     // 실제 추가된 내용을 반환

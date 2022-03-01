@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -24,6 +25,25 @@ public class MemberController {
     @Autowired
     private MemberDB memberDB;
 
+    // 업데이트 페이지 불러오기
+    // 127.0.0.1:8080/member/update
+    @GetMapping(value = {"/update"})
+    public String updateGET(){
+        
+        // member_update로 생성
+        // member 폴더에 있는 update.jsp 표시
+        return "member/update";
+    }
+
+    @PutMapping(value = {"/update"})
+    public String updatePUT(@ModelAttribute Member mem1){
+        System.out.println( mem1.toString() );
+
+        // 설계 부분을 사용
+        memberDB.updateMember(mem1);
+
+        return "redirect:/member/update";
+    }
 
     // 삭제하기
     // 127.0.0.1:8080/member/delete?id=12
