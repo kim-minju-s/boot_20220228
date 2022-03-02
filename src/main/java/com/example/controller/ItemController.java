@@ -40,7 +40,7 @@ public class ItemController {
     public String insertPOST(
             @ModelAttribute Item item,
             @RequestParam(name = "image") MultipartFile file ) throws IOException {
-        
+
         System.out.println(item.toString());
         System.out.println(file.getOriginalFilename());
 
@@ -73,7 +73,7 @@ public class ItemController {
         if (page == 0) {    // ?page=1을 추가하는 부분
             return "redirect:/item/selectlist?page=1";
         }
-        
+
         // 1 페이지 => 0
         // 2 페이지 => 1
         Pageable pageable = PageRequest.of( page-1, 10);
@@ -123,6 +123,18 @@ public class ItemController {
             e.printStackTrace();
             return null;
         }
+    }
+
+    // 물품 상세조회
+    @GetMapping(value = "/selectone")
+    public String selectOneGET(Model model,
+        @RequestParam(name = "code") long code ){
+
+        Item item = itemDB.selectOneItem(code);
+
+        model.addAttribute(item);
+
+        return "redirect:/item/selectone";
     }
 
 }

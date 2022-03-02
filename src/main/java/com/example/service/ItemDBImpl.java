@@ -89,10 +89,16 @@ public class ItemDBImpl implements ItemDB {
         }
     }
 
+    // 물품 상세 조회
     @Override
     public Item selectOneItem(long code) {
-        // TODO Auto-generated method stub
-        return null;
+        try {
+            System.out.println("여기 코드" + code);
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();;
+            return null;
+        }
     }
 
 }
