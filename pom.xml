@@ -46,6 +46,7 @@
 		</dependency>
 
 		<!-- devtools -->
+		<!-- 소스코드 변경을 실시간으로 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>

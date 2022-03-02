@@ -10,8 +10,14 @@ import org.springframework.stereotype.Service;
 // 구현하는 설계 부분
 @Service
 public interface MemberDB {
+    // 삭제, 수정, 추가 리턴은 int
 
-    public Member updateMember(Member member);
+    // 회원 1명 조회하기
+    // id를 전달하면 회원 1명의 정보
+    public Member selectOneMember(String id);
+
+    // 수정하기
+    public int updateMember(Member member);
     
     // 추가할 내용을 member로 주면 추가한 후에
     // 실제 추가된 내용을 반환

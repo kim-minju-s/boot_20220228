@@ -17,8 +17,9 @@ import lombok.ToString;
 @Document(collection = "sequence")
 public class Sequence {
     
-    // _id
+    // 필드이름이 _id
     @Id
+    // @Field(name = "_id")
     private String seqName = null;
 
     @Field(name = "seq")

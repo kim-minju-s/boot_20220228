@@ -11,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -28,21 +27,32 @@ public class MemberController {
     // 업데이트 페이지 불러오기
     // 127.0.0.1:8080/member/update
     @GetMapping(value = {"/update"})
-    public String updateGET(){
+    public String updateGET(
+            Model model,
+            @RequestParam(name = "id") String id ){
         
-        // member_update로 생성
-        // member 폴더에 있는 update.jsp 표시
+        // DB에서 내용을 가져오기
+        Member member = memberDB.selectOneMember(id);
+
+        // jsp로 전달해줌
+        model.addAttribute("member", member);
+
         return "member/update";
     }
 
-    @PutMapping(value = {"/update"})
-    public String updatePUT(@ModelAttribute Member mem1){
-        System.out.println( mem1.toString() );
+    @PostMapping(value = {"/update"})
+    public String updatePOST(@ModelAttribute Member member){
+        System.out.println(member.toString());
 
-        // 설계 부분을 사용
-        memberDB.updateMember(mem1);
+        int ret = memberDB.updateMember(member);
+        if (ret == 1) {
+            // post 에서는 jsp를 표시 X
+            // redirect를 이용하여 주소를 변경
+            return "redirect:/member/selectlist";
+        }
 
-        return "redirect:/member/update";
+        // 127.0.0.1:8080/member/update?id=aaa
+        return "redirect:/member/update?id=" + member.getId();
     }
 
     // 삭제하기
