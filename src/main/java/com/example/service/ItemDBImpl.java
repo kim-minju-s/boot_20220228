@@ -100,7 +100,7 @@ public class ItemDBImpl implements ItemDB {
             query.addCriteria(Criteria.where("_id").is(code));
 
             return mongoDB.findOne(query, Item.class);
-            
+
         } catch (Exception e) {
             e.printStackTrace();;
             return null;
