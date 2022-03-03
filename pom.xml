@@ -20,6 +20,12 @@
 	<!-- 라이브러리 -->
 	<dependencies>
 
+		<!-- mongoDB에 Session을 저장할 때 -->
+		<dependency>
+		    <groupId>org.springframework.session</groupId>
+    		<artifactId>spring-session-data-mongodb</artifactId>
+		</dependency>
+
 		<!-- mongodb -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

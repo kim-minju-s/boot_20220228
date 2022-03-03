@@ -17,7 +17,7 @@
         <h3>물품 조회</h3>
 
         <form th:action="@{/item/insert}" method="get">
-            <input type="submit" value="물품추가">
+            <input type="submit" class="btn btn-primary" value="물품추가">
         </form>
         <table class="table">
             <thead>
@@ -43,18 +43,17 @@
                     <td th:text="${tmp.quantity}"></td>
                     <td th:text="${tmp.regdate}"></td>
                     <td>
-                        <a href="#">상세보기</a>
-                        <a href="#">수정</a>
-                        <a href="#">삭제</a>
+                        <a th:href="@{/item/selectone(code=${tmp.code})}" class="btn btn-primary btn-sm" role="button">상세보기</a>
+                        <a th:href="@{/item/update(code=${tmp.code})}" class="btn btn-primary btn-sm" role="button">수정</a>
+                        <a th:href="@{/item/delete(code=${tmp.code})}" class="btn btn-warning btn-sm" role="button" >삭제</a>
+                        <a href="#" onclick="myFunction()" >경고</a>
                     </td>
                 </tr>
             </tbody>
-            
+
         </table>
-        <!-- 페이지네이션 -->
-        <!-- <th:block th:each="i : ${#numbers.sequence(1,pages)}">
-            <a th:href="@{/item/selectlist(page=${i})}" th:text="${i}"></a>
-        </th:block> -->
+        
+
 
         <nav>
             <ul class="pagination">
@@ -67,6 +66,17 @@
         </nav>
 
     </div>
+
+
     
 </body>
+<script>
+    function myFunction() {
+        var deletebtn = confirm("삭제하시겠습니까?");
+        if (deletebtn == true) {
+            
+            alert("삭제되었습니다.");
+        }
+    }
+</script>
 </html>

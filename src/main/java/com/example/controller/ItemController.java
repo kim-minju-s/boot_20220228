@@ -1,12 +1,14 @@
 package com.example.controller;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import com.example.entity.Item;
 import com.example.service.ItemDB;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -28,6 +30,11 @@ public class ItemController {
 
     @Autowired
     private ItemDB itemDB;
+
+    // resources/하위폴더의 파일을 읽기위한 객체생성
+    // ResourceLoader resource = new ResourceLoader();
+    @Autowired
+    private ResourceLoader resource;
 
     @GetMapping(value = "/insert")
     public String insertGET(){
@@ -80,10 +87,12 @@ public class ItemController {
 
         // DB에서 목록 가져오기(가져온 정보들을 하나로 합치기)
         List<Item> list = itemDB.selectListItem(pageable);
+        // 페이지네이션 개수
+        long pages = itemDB.selectItemCount();
 
         // jsp로 전달
         model.addAttribute("list", list);
-        model.addAttribute("pages", 10);
+        model.addAttribute("pages", (pages-1)/10+1);
 
         // item 폴더의 select.jsp 를 표시
         return "item/select";
@@ -110,13 +119,21 @@ public class ItemController {
                     headers.setContentType(MediaType.IMAGE_GIF);
                 }
 
+                // 생성자(실제데이터, headers, 200)
                 ResponseEntity<byte[]> response
                     = new ResponseEntity<byte[]>(item.getFiledata(), headers, HttpStatus.OK);
 
                 return response;
             }
-            else {
-                return null;
+            else {  // 이미지가 없는 경우
+                InputStream stream = resource.getResource("classpath:/static/img/default.jpg").getInputStream();
+            
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.IMAGE_JPEG);
+
+                ResponseEntity<byte[]> response
+                    = new ResponseEntity<byte[]>(stream.readAllBytes(), headers, HttpStatus.OK);
+                return response;
             }
 
         } catch (Exception e) {
@@ -134,7 +151,46 @@ public class ItemController {
 
         model.addAttribute(item);
 
-        return "redirect:/item/selectone";
+        return "/item/selectone";
     }
 
+    // 물품 수정
+    @GetMapping(value = "/update")
+    public String updateGET(Model model,
+            @RequestParam(name = "code") long code){
+
+        Item item = itemDB.selectOneItem(code);
+
+        model.addAttribute("item", item);
+
+        return "item/update";   // update.jsp 표시
+    }
+
+    // 물품 삭제
+    @GetMapping(value = "/delete")
+    public String deleteGET(@RequestParam(name = "code") long code){
+
+        itemDB.deleteItemOne(code);
+
+        return "redirect:/item/selectlist";
+    }
+
+    @PostMapping(value = "update")
+    public String updatePOST(@ModelAttribute Item item,
+            @RequestParam(name = "image") MultipartFile file ) throws IOException{
+
+        if ( !file.isEmpty() ) {
+            item.setFilename(file.getOriginalFilename());
+            item.setFilesize(file.getSize());
+            item.setFiletype(file.getContentType());
+            item.setFiledata(file.getBytes());
+        }
+
+        int ret = itemDB.updateItemOne(item);
+        if (ret == 1) {
+            return "redirect:/item/selectlist";
+        }
+
+        return "redirect:/item/update?code=" + item.getCode();
+    }
 }

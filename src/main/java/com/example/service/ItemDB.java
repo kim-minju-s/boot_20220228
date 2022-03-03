@@ -21,4 +21,13 @@ public interface ItemDB {
 
     // 물품 상세조회
     public Item selectOneItem(long code);
+
+    // 물품전체개수 구하기(페이지네이션의 페이지 표시용)
+    public long selectItemCount();
+
+    // 물품 1개 삭제
+    public int deleteItemOne(long code);
+
+    // 물품수정
+    public int updateItemOne(Item item);
 }

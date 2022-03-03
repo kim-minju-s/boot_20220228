@@ -29,4 +29,7 @@ public interface MemberDB {
     // 회원 1명 삭제(회원 아이디가 오면 삭제후 -1, 0 또는 1로 리턴)
     public int deleteMember(String id);
 
+    // 로그인(아이디, 암호 전달되면 일치하는 회원정보를 반환)
+    public Member selectLogin( Member member);
+
 }
