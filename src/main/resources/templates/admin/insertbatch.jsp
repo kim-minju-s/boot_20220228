@@ -13,7 +13,7 @@
 <body>
     
     
-    <div style="padding: 20px;">
+    <div style="padding: 20px;" class="container">
         <h3>일괄등록</h3>
 
         <a th:href="@{/admin/selectlist}">도서목록</a>
