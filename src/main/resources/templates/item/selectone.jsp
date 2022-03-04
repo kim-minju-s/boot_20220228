@@ -23,11 +23,11 @@
             물품이름: <input type="text" name="name" th:value="${item.name}" /> <br />
             물품가격: <input type="text" name="price" th:value="${item.price}" /> <br />
             물품수량: <input type="text" name="quentity" th:value="${item.quantity}" /> <br />
-            이미지: <img th:src="@{/item/image(code=${item.code})}" alt="">
+            이미지: <img th:src="@{/item/image(code=${item.code})}" >
 
         </form>
         <!-- 버튼 -->
-        <a th:href="@{/item/selectlist}" class="btn btn-primary btn-sm" role="button">목록으로</a>
+        <a th:href="@{/item/selectlist}" class="btn btn-primary btn-sm"role="button">목록으로<a>
     </div>
     
 </body>
