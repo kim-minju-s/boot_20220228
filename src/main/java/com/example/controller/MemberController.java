@@ -26,9 +26,49 @@ public class MemberController {
     @Autowired
     private MemberDB memberDB;
 
+    @Autowired
+    private HttpSession httpSession;
+
+    @PostMapping(value = "/mypage") 
+    public String mypagePOST(   // get과 post 둘다 받아야함
+            @RequestParam(name = "menu") int menu,
+            @ModelAttribute Member member ) { 
+
+        if (menu == 1) {    // jsp 에서 정보수정 버튼을 눌렀느냐
+            int ret = memberDB.updateMember(member);
+            if (ret == 1) {
+                // 세션 작업해야함
+                httpSession.setAttribute("USERNAME", member.getName());
+                return "redirect:/member/mypage?menu=1";
+            }
+            return "redirect:/member/mypage?menu=1";
+        }
+        else if (menu == 2) {   // jsp에서 암호변경 버튼
+            System.out.println("암호변경----->" + member.toString());
+            String userid = (String)httpSession.getAttribute("USERID");
+            member.setId(userid);
+
+            long ret = memberDB.updateMemberPassword(member);
+            if (ret == 1L) {
+                return "redirect:/member/mypage?menu=2";
+            }
+            return "redirect:/member/mypage?menu=2";
+        }
+        else if (menu == 3) {   // jsp에서 회원탈퇴 버튼
+            String userid = (String)httpSession.getAttribute("USERID");
+            
+
+            memberDB.deleteMember(userid);
+        }
+
+        // 비정상적인 작업영역
+        return "redirect:/home";
+    }
+
     // 마이페이지
     @GetMapping(value = "/mypage")
-    public String mypageGET(HttpSession httpSession,
+    public String mypageGET(
+            Model model,
             @RequestParam(name = "menu", defaultValue = "0") int menu ){
 
         if (menu == 0) {
@@ -40,6 +80,19 @@ public class MemberController {
         if (userid == null) {
             return "redirect:/member/login";
         }
+
+        if (menu == 1) {    // 정보수정
+            Member member = memberDB.selectOneMember(userid);
+            model.addAttribute("title", "정보수정");
+            model.addAttribute("mem", member);
+        }
+        else if (menu == 2) {   // 암호변경
+            model.addAttribute("title", "암호변경");
+        }
+        else if (menu == 3) {   // 회원탈퇴
+            model.addAttribute("title", "회원탈퇴");
+        }
+
         return "member/mypage";
     }
 
@@ -50,8 +103,7 @@ public class MemberController {
 
     // 로그인
     @PostMapping(value = "/login")
-    public String loginPOST(@ModelAttribute Member member,
-            HttpSession httpSession){
+    public String loginPOST(@ModelAttribute Member member){
         
         // DB에 아이디, 암호를 전달하여 일치하는 항목 있는지 확인
         Member retMember = memberDB.selectLogin(member);
@@ -72,7 +124,7 @@ public class MemberController {
 
     // 로그아웃
     @GetMapping(value = "/logout")
-    public String loginGET(HttpSession httpSession){
+    public String logoutGET(){
         // 세션을 완전히 삭제함
         httpSession.invalidate();
         return "redirect:/home";

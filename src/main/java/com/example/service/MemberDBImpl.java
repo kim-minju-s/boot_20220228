@@ -45,6 +45,7 @@ public class MemberDBImpl implements MemberDB {
         }
     }
 
+    // 회원탈퇴
     @Override
     public int deleteMember(String id) {
         try {
@@ -115,6 +116,26 @@ public class MemberDBImpl implements MemberDB {
         } catch (Exception e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    // 암호변경
+    @Override
+    public long updateMemberPassword(Member member) {
+        try {
+            Query query = new Query();
+            query.addCriteria(Criteria.where("_id").is(member.getId()));
+            query.addCriteria(Criteria.where("pw").is(member.getPw()));
+
+            Update update = new Update();
+            update.set("pw", member.getNewPw());
+
+            UpdateResult result = mongodb.updateFirst(query, update, Member.class);
+
+            return result.getModifiedCount();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1L;
         }
     }
 

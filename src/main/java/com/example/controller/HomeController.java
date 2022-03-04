@@ -11,7 +11,7 @@ public class HomeController {
     // 크롭에서 주소를 입력한게 일치하면
     // 밑에 있는 메소드가 실행
     @GetMapping(value = {"/", "/home"})
-    public String homeGET(HttpSession httpSession){
+    public String homeGET(HttpSession httpSession){ // 빈 Session 만들기
         // System.out.println("세션 아이디" + httpSession.getId());
         // home.jsp를 표시하라
         return "home";
