@@ -96,10 +96,16 @@ public class BookDBImpl implements BookDB{  //2. 설계 인터페이스 구현
         try {
             Query query = new Query();
             query.addCriteria(Criteria.where("_id").is(code));
+            System.out.println("쿼리 ---> " + query);
 
             DeleteResult result = mongoDB.remove(query, Book.class);
 
             System.out.println("삭제 결과값--->" + result);
+            System.out.println(code.length);
+
+            if (result.getDeletedCount() == code.length) {
+                return 1;
+            }
             
             return 0;
         } catch (Exception e) {
@@ -107,6 +113,14 @@ public class BookDBImpl implements BookDB{  //2. 설계 인터페이스 구현
             return -1;
         }
     }
+
+    @Override
+    public int updateBatchBook(List<Book> list) {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+
 
     
 }

@@ -31,14 +31,27 @@ public class AdminController {
     @Autowired
     private HttpSession httpSession;
 
+    @GetMapping(value = "/updatebatch")
+    public String updateGET(Model model,
+            @RequestParam(name = "code") long[] code ) {
+
+        // 페이지를 이동 후에 세션에서 꺼내기
+        long[] code1 = (long[]) httpSession.getAttribute("code");
+
+        // jsp 로 전달
+        model.addAttribute("code1", code1);
+
+        return "/admin/updatebatch";
+    }
+
     // 일괄삭제 & 일괄수정
     @PostMapping(value = "/action")
-    public String actionPOST(
+    public String actionPOST(Model model,
             @RequestParam(name = "btn") String btn,
             @RequestParam(name = "chk") long[] code){
                 
-            System.out.println("버튼 ---> " + btn);
-            System.out.println("체크버튼 ---> " + code);
+            // System.out.println("버튼 ---> " + btn);
+            // System.out.println("체크버튼1 ---> " + Arrays.toString(code));
 
         if (btn.equals("일괄삭제")) {
             
@@ -48,11 +61,11 @@ public class AdminController {
             return "redirect:/admin/selectlist";
         }
         else if (btn.equals("일괄수정")) {
-            // 세션에 long[] 의 code를 세션에 넣음
-            // httpSession.setAttribute("code", code);
+            // long[] 의 code를 세션에 넣음
+            httpSession.setAttribute("code", code);
 
-            // 페이지를 이동 후에 세션에서 꺼내기
-            // long[] code1 = (long[]) httpSession.getAttribute("code");
+            
+
             return "redirect:/admin/updatebatch";
         }
 

@@ -170,6 +170,7 @@ public class ItemController {
     @GetMapping(value = "/delete")
     public String deleteGET(@RequestParam(name = "code") long code){
 
+        System.out.println("코드 값" + code);
         itemDB.deleteItemOne(code);
 
         return "redirect:/item/selectlist";

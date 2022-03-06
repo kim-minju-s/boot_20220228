@@ -126,6 +126,7 @@ public class ItemDBImpl implements ItemDB {
             Query query = new Query();
             query.addCriteria(Criteria.where("_id").is(code));
 
+            System.out.println("아이템 쿼리--->" + query);
             DeleteResult result = mongoDB.remove(query, Item.class);
             if (result.getDeletedCount() == 1L) {
                 return 1;

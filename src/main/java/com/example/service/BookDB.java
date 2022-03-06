@@ -19,4 +19,7 @@ public interface BookDB {
 
     // 일괄삭제
     public int deleteBatchBook(long[] code);
+
+    // 일괄수정
+    public int updateBatchBook(List<Book> list);
 }
