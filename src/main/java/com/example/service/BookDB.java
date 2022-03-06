@@ -18,4 +18,5 @@ public interface BookDB {
     public long countSearchBook(String text);
 
     // 일괄삭제
+    public int deleteBatchBook(long[] code);
 }

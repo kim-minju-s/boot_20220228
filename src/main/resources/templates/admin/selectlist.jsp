@@ -26,7 +26,7 @@
             <input type="submit" value="검색" />
         </form>
 
-        <form th:action="@{/admin/action}" method="post"></form>
+        <form th:action="@{/admin/action}" method="post">
             <input type="submit" name="btn" value="일괄삭제">
             <input type="submit" name="btn" value="일괄수정">
                 

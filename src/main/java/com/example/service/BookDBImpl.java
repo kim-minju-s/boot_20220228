@@ -6,6 +6,7 @@ import java.util.List;
 
 
 import com.example.entity.Book;
+import com.mongodb.client.result.DeleteResult;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -47,6 +48,7 @@ public class BookDBImpl implements BookDB{  //2. 설계 인터페이스 구현
 
     }
 
+    // 페이지네이션 & 검색으로 조회
     @Override
     public List<Book> selectListPageSearchBook(int page, String text) {
         try {
@@ -83,6 +85,23 @@ public class BookDBImpl implements BookDB{  //2. 설계 인터페이스 구현
             query.addCriteria(criteria);
 
             return mongoDB.count(query, Book.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
+    @Override
+    public int deleteBatchBook(long[] code) {
+        try {
+            Query query = new Query();
+            query.addCriteria(Criteria.where("_id").is(code));
+
+            DeleteResult result = mongoDB.remove(query, Book.class);
+
+            System.out.println("삭제 결과값--->" + result);
+            
+            return 0;
         } catch (Exception e) {
             e.printStackTrace();
             return -1;

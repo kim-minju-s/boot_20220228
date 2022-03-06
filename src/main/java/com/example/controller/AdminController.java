@@ -36,20 +36,23 @@ public class AdminController {
     public String actionPOST(
             @RequestParam(name = "btn") String btn,
             @RequestParam(name = "chk") long[] code){
-
-        System.out.println(btn);
+                
+            System.out.println("버튼 ---> " + btn);
+            System.out.println("체크버튼 ---> " + code);
 
         if (btn.equals("일괄삭제")) {
-            // DB 삭제 구현
-            // 회원 목록, 물품목록 검색기능 추가하기
+            
+            // DB 삭제 구현 
+            bookDB.deleteBatchBook(code);
+            // 회원 목록, 물품목록 검색기능 추가하기 
             return "redirect:/admin/selectlist";
         }
         else if (btn.equals("일괄수정")) {
             // 세션에 long[] 의 code를 세션에 넣음
-            httpSession.setAttribute("code", code);
+            // httpSession.setAttribute("code", code);
 
             // 페이지를 이동 후에 세션에서 꺼내기
-            long[] code1 = (long[]) httpSession.getAttribute("code");
+            // long[] code1 = (long[]) httpSession.getAttribute("code");
             return "redirect:/admin/updatebatch";
         }
 
