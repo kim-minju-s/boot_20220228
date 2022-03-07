@@ -37,7 +37,7 @@ public class BoardController {
 	@GetMapping(value = "/updatebatch")
 	public String updateGET(Model model) {
 		long no = (long)httpSession.getAttribute("rad");
-		System.out.println("세션에서 꺼낸 no" + no);
+		// System.out.println("세션에서 꺼낸 no" + no);
 		
 		Optional<Board> optional = bRepository.findById(no);
 		if(optional.isPresent()) {
@@ -48,6 +48,27 @@ public class BoardController {
 		return "board/updatebatch";
 	}
 	
+	@PostMapping(value = "/updatebatch")
+	public String updatePOST(Model model,
+			@RequestParam(name = "title") String title,
+			@RequestParam(name = "writer") String writer,
+			@RequestParam(name = "content") String content ) {
+
+		
+
+		Board board = new Board();
+		board.setTitle(title);
+		board.setContent(content);
+		board.setWriter(writer);
+		
+		Board b = bRepository.save(board);
+		System.out.println("업데이트 하는거" + b);
+		
+
+		model.addAttribute("msg", "수정 완료");
+		model.addAttribute("url", "/board/selectlist");
+		return "alert";	
+	}
 	
 	@PostMapping(value = "/action")
 	public String actionPOST(Model model,

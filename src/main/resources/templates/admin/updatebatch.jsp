@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>일괄 수정</title>
+    <title>일괄 수정</title>
     <!-- bootstrap/css -->
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.css}" />
     <!-- bootstrap/js -->
@@ -14,7 +14,7 @@
     
     
     <div style="padding: 20px;" class="container">
-        <h3> 일괄 수정 </h3>
+        <h3>일괄 수정</h3>
 		<hr />
 		
 		<form th:action="@{/admin/updatebatch}" method="post">
@@ -23,9 +23,9 @@
                     <th>코드</th>
                     <th>제목</th>
                     <th>가격</th>
-                    <th>저자</th>
-                    <th>분류</th>
-                    <th>등록일</th>
+                    <th>저자</th>
+                    <th>분류</th>
+                    <th>등록일</th>
                 </tr>
 
                 <tr th:each="tmp : ${list} ">
