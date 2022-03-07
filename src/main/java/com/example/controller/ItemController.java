@@ -176,6 +176,7 @@ public class ItemController {
         return "redirect:/item/selectlist";
     }
 
+    // 물품 수정
     @PostMapping(value = "update")
     public String updatePOST(@ModelAttribute Item item,
             @RequestParam(name = "image") MultipartFile file ) throws IOException{

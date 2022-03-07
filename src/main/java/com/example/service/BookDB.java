@@ -18,8 +18,11 @@ public interface BookDB {
     public long countSearchBook(String text);
 
     // 일괄삭제
-    public int deleteBatchBook(long[] code);
+    public long deleteBatchBook( List<Long> code);
+    
+    // 코드에 해당하는 목록 가져오기
+    public List<Book> selectListWhereIn(List<Long> code);
 
     // 일괄수정
-    public int updateBatchBook(List<Book> list);
+    public long updateBatchBook(List<Book> list);
 }

@@ -32,39 +32,90 @@ public class AdminController {
     private HttpSession httpSession;
 
     @GetMapping(value = "/updatebatch")
-    public String updateGET(Model model,
-            @RequestParam(name = "code") long[] code ) {
-
+    public String updateGET(Model model) {
+    	// 형변환을 하면 데이터가 안전하지 않음을 경고
+    	// 세션에 추가할 때와 가지고 올 때의 타입을 정확하게 매칭
+    	@SuppressWarnings({"unchecked"})
         // 페이지를 이동 후에 세션에서 꺼내기
-        long[] code1 = (long[]) httpSession.getAttribute("code");
+        List<Long> code = (List<Long>) httpSession.getAttribute("CHK");
+    	
+    	List<Book> list = bookDB.selectListWhereIn(code);
+    	model.addAttribute("list", list);
 
-        // jsp 로 전달
-        model.addAttribute("code1", code1);
+        // DB에서 code에 해당하는 항목 정보만 가져옴
+        // jsp로 전달
+        // jsp를 표시함
 
         return "/admin/updatebatch";
     }
+    
+    // 
+    @PostMapping(value = "/updatebatch")
+    public String updatePost(Model model,
+    		@RequestParam(name = "code") long[] code,
+    		@RequestParam(name = "title") String[] title,
+    		@RequestParam(name = "price") long[] price,
+    		@RequestParam(name = "writer") String[] writer,
+    		@RequestParam(name = "category") String[] category ) {
+    	
+    	List<Book> list = new ArrayList<Book>();
+    	for(int i=0;i<code.length;i++) {
+    		Book book = new Book();
+    		book.setCode(code[i]);
+    		book.setTitle(title[i]);
+    		book.setPrice(price[i]);
+    		book.setWriter(writer[i]);
+    		book.setCategory(category[i]);
+    		
+    		list.add(book);
+    	}
+    	
+    	long ret = bookDB.updateBatchBook(list);
+    	if(ret == 1) {
+    		model.addAttribute("msg", "일괄수정 되었습니다.");
+    		model.addAttribute("url", "/admin/selectlist");
+    		return "alert";    		
+    	}
+    	// jsp를 만들어서 알림을 띄우고 redirect 실행
+    	model.addAttribute("msg", "일괄수정 실패했습니다.");
+		model.addAttribute("url", "/admin/selectlist");
+    	return "alert";
+    }
+    
 
     // 일괄삭제 & 일괄수정
     @PostMapping(value = "/action")
     public String actionPOST(Model model,
             @RequestParam(name = "btn") String btn,
-            @RequestParam(name = "chk") long[] code){
-                
+            @RequestParam(name = "chk") List<Long> code){
+               
+    		// Java wrapper 클래스
+    		// long: 변수 -> Long: 오브젝트 => 클래스화
+    		// byte(기본타입)/Byte(래퍼 클래스)
+    	
+    		// List<object> 안에는 오브젝트만 가능
+    		// long[] == List<Long>
+    	
             // System.out.println("버튼 ---> " + btn);
-            // System.out.println("체크버튼1 ---> " + Arrays.toString(code));
+    	for(Long tmp : code) {
+    		System.out.println("tmp--->" + tmp);
+    	}
 
         if (btn.equals("일괄삭제")) {
+        	// DB 삭제 구현 
+        	bookDB.deleteBatchBook(code);
+        	
+// 			System.out.println("체크버튼1 ---> " + Arrays.toString(code));
+//        	for(int i=0;i<code.size();i++) {
+//        		System.out.println(code);
+//        	}
             
-            // DB 삭제 구현 
-            bookDB.deleteBatchBook(code);
             // 회원 목록, 물품목록 검색기능 추가하기 
             return "redirect:/admin/selectlist";
         }
         else if (btn.equals("일괄수정")) {
             // long[] 의 code를 세션에 넣음
-            httpSession.setAttribute("code", code);
-
-            
+            httpSession.setAttribute("CHK", code);
 
             return "redirect:/admin/updatebatch";
         }
@@ -122,6 +173,8 @@ public class AdminController {
             @RequestParam(name = "text", defaultValue = "") String text){
         
         List<Book> list = bookDB.selectListPageSearchBook(page, text);  // 페이지
+        
+        System.out.println(list.size());
 
         long pages = bookDB.countSearchBook(text);
 
