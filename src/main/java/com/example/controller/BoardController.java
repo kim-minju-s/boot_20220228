@@ -1,12 +1,10 @@
 package com.example.controller;
 
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,9 +32,6 @@ public class BoardController {
 	
 	@Autowired
 	SequenceService sequenceService;
-	
-	@Autowired
-    private HttpSession httpSession;
 	
 	// repository로 조회
 	// 127.0.0.1:8080/board/selectfind

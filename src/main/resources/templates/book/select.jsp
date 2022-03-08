@@ -24,32 +24,34 @@
             <input type="text" name="text" placeholder="검색" />
             <input type="submit" value="검색" />
         </form>
-		
-        <form th:action="@{/book/select}" method="get">
 
-            <table class="table">
-            	<tr>
-            		<th>체크</th>
-            		<th>번호</th>
-            		<th>제목</th>
-            		<th>가격</th>
-            		<th>저자</th>
-            		<th>분류</th>
-            		<th>등록일</th>
-            	</tr>
-            	
-            	<tr th:each="tmp,idx : ${list}">
-            		<td><input type="checkbox" name="chk" th:value="${tmp.code}" /> </td>
-            		<td th:text="${idx.count}"></td>
-            		<td th:text="${tmp.title}"></td>
-            		<td th:text="${tmp.price}"></td>
-            		<td th:text="${tmp.writer}"></td>
-            		<td th:text="${tmp.category}"></td>
-            		<td th:text="${tmp.regdate}"></td>
-            	</tr>
-            </table>
-
-        </form>
+		<form th:action="@{/book/action}" method="post">
+			<table class="table">
+				<tr>
+					<th>번호</th>
+					<th>제목</th>
+					<th>가격</th>
+					<th>저자</th>
+					<th>분류</th>
+					<th>등록일</th>
+					<th>버튼</th>
+				</tr>
+				
+				<tr th:each="tmp,idx : ${list}">
+					<td th:text="${tmp.code}" hidden ></td>
+					<td th:text="${idx.count}"></td>
+					<td th:text="${tmp.title}"></td>
+					<td th:text="${tmp.price}"></td>
+					<td th:text="${tmp.writer}"></td>
+					<td th:text="${tmp.category}"></td>
+					<td th:text="${tmp.regdate}"></td>
+					<td>
+						<input type="submit" name="btn" value="삭제">
+						<input type="submit" name="btn" value="수정">
+					</td>
+				</tr>
+			</table>
+		</form>
         
         <!-- 페이지네이션 -->
         <nav>

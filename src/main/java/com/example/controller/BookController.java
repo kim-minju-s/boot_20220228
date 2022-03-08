@@ -49,11 +49,29 @@ public class BookController {
 		return "redirect:/book/insert";
 	}
 	
-	// select 조회
+	// selectOne 상세 조회
 	// update 수정
-	// delete 삭제
-	
 
+	// delete 삭제
+	@PostMapping(value = "/action")
+	public String actionPOST(Model model,
+			@RequestParam(name = "btn") String btn) {
+			
+			System.out.println(btn);
+
+		if (btn.equals("삭제")) {
+			// bookRepository.deleteById(code);
+
+			model.addAttribute("msg", "삭제 완료");
+			model.addAttribute("url", "/book/select");
+			return "alert";
+		}
+		else if(btn.equals("수정")){
+
+			return "redirect:/book/update";
+		}
+		return "redirect:/book/select";
+	}
 	
 	// 페이지네이션 목록 조회
 	// 127.0.0.1:8080/book/select?page=1&text=한글
