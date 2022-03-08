@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>게시판 목록</title>
+    <title>게시판 목록</title>
     <!-- bootstrap/css -->
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.css}" />
     <!-- bootstrap/js -->
@@ -14,9 +14,10 @@
     
     
     <div style="padding: 20px;">
-        <h3>게시판 목록</h3>
+        <h3>게시판 목록</h3>
 		
 		<a th:href="@{/board/insert}">글쓰기</a>
+		<a th:href="@{/board/selectfind}">조회</a>
         <form th:action="@{/board/action}" method="post">
         
         	<input type="submit" name="btn" value="삭제">
@@ -26,9 +27,9 @@
                 <tr>
                     <th>라디오</th>
                     <th>번호</th>
-                    <th>제목</th>
+                    <th>제목</th>
                     <th>저자</th>
-                    <th>조회수</th>
+                    <th>조회수</th>
                     <th>등록일</th>
                 </tr>
                 <tr th:each="tmp : ${list}">

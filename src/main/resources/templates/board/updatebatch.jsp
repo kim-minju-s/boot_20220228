@@ -19,12 +19,13 @@
         <hr />
         <form th:action="@{/board/updatebatch}" method="post">
 
+			<input type="hidden" name="no" th:value="${board.no}" /> <br />
            	제목: <input type="text" name="title" th:value="${board.title}" /> <br />
             내용: <input type="text" name="content" th:value="${board.content}" /> <br />
             작성자: <input type="text" name="writer" th:value="${board.writer}" /> <br />
             
             <input type="submit" value="수정하기" />
-
+			<a th:href="@{/board/selectlist}">글목록</a>
         </form>
         
     </div>
