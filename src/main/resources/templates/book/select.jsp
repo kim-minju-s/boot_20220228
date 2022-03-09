@@ -46,8 +46,8 @@
 					<td th:text="${tmp.category}"></td>
 					<td th:text="${tmp.regdate}"></td>
 					<td>
-						<input type="submit" name="btn" value="삭제">
-						<input type="submit" name="btn" value="수정">
+						<a th:href="@{/book/delete(code=${tmp.code})}" class="btn btn-warning btn-sm" role="button" >삭제</a>
+						<a th:href="@{/book/update(code=${tmp.code})}" class="btn btn-warning btn-sm" role="button" >수정</a>
 					</td>
 				</tr>
 			</table>

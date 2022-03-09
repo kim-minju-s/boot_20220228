@@ -50,27 +50,31 @@ public class BookController {
 	}
 	
 	// selectOne 상세 조회
+
+
 	// update 수정
+	@GetMapping(value = "/update")
+	public String updateGET(Model model,
+			@ModelAttribute Book book ){
+
+
+		// model.addAttribute(attributeName, attributeValue);
+		return "/book/update";
+	}
+
 
 	// delete 삭제
-	@PostMapping(value = "/action")
-	public String actionPOST(Model model,
-			@RequestParam(name = "btn") String btn) {
+	@GetMapping(value = "/delete")
+	public String deleteGET(Model model,
+			@RequestParam(name = "code") long code ) {
 			
-			System.out.println(btn);
+		System.out.println(code);
 
-		if (btn.equals("삭제")) {
-			// bookRepository.deleteById(code);
+		bookRepository.deleteById(code);
 
-			model.addAttribute("msg", "삭제 완료");
-			model.addAttribute("url", "/book/select");
-			return "alert";
-		}
-		else if(btn.equals("수정")){
-
-			return "redirect:/book/update";
-		}
-		return "redirect:/book/select";
+		model.addAttribute("msg", "삭제 완료");
+		model.addAttribute("url", "/book/select");
+		return "alert";
 	}
 	
 	// 페이지네이션 목록 조회

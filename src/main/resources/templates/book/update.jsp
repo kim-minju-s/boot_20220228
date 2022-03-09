@@ -18,7 +18,7 @@
 
         <form th:action="@{/book/udpate}" method="post">
 
-            책제목: <input type="text" name="title" /> <br />
+            책제목: <input type="text" name="title"  /> <br />
             책가격: <input type="text" name="price"> <br />
             책내용: <input type="text" name="content" /> <br />
             책저자: <input type="text" name="writer" /> <br />

@@ -192,7 +192,7 @@ public class BoardController {
 				return "alert";	
 			}
 			else if(btn.equals("수정")) {
-				// httpSession.setAttribute("rad", no);	// 세션에서 id전송
+				// httpSession.setAttribute("rad", no);	// 세션에 id전송
 				
 				// 세션에 추가하는 방식
 				// get 방식 -> url에 parameter로 붙임
