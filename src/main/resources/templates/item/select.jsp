@@ -46,7 +46,7 @@
                         <a th:href="@{/item/selectone(code=${tmp.code})}" class="btn btn-primary btn-sm" role="button">상세보기</a>
                         <a th:href="@{/item/update(code=${tmp.code})}" class="btn btn-primary btn-sm" role="button">수정</a>
                         <a th:href="@{/item/delete(code=${tmp.code})}" class="btn btn-warning btn-sm" role="button" >삭제</a>
-                        <a href="#" onclick="myFunction()" >경고</a>
+                        
                     </td>
                 </tr>
             </tbody>
@@ -70,13 +70,4 @@
 
     
 </body>
-<script>
-    function myFunction() {
-        var deletebtn = confirm("삭제하시겠습니까?");
-        if (deletebtn == true) {
-            
-            alert("삭제되었습니다.");
-        }
-    }
-</script>
 </html>
